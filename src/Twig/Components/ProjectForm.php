@@ -48,6 +48,7 @@ class ProjectForm extends AbstractController
         $user = $this->getUser();
 
         $user->addProject($project);
+        $user->setSelectedProject($project);
 
         $em->flush();
 

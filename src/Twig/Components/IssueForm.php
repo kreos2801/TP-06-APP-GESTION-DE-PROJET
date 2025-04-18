@@ -12,6 +12,8 @@ use Symfony\UX\LiveComponent\ValidatableComponentTrait;
 use Symfony\Component\Form\FormInterface;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 
 
@@ -33,10 +35,19 @@ class IssueForm extends AbstractController
     }
 
     #[LiveAction]
-    public function save()
+    public function save(EntityManagerInterface $em): Response
     {
         $this->validate();
         
         $this->submitForm();
+        /** @var Issue $issue */
+        $issue = $this->getForm()->getData();
+
+        $em->persist($issue);
+        $em->flush();
+
+        return $this->redirectToRoute('issue_show',[
+            'id'=> $issue->getId()
+        ]);
     }
 }
