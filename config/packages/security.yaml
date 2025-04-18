@@ -17,8 +17,13 @@ security:
         main:
             form_login:
                 login_path: login_index
+                check_path: login_index
+                username_parameter: _username
+                password_parameter: _password
+                default_target_path: home_index
 
             logout:
+                path: app_logout
                 target: login_index
 
             lazy: true
