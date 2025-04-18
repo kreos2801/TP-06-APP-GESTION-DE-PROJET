@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Enum\IssueStatus;
+use App\Enum\IssueType;
 use App\Repository\IssueRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,8 +22,8 @@ class Issue
     #[ORM\JoinColumn(nullable: false)]
     private ?Project $project = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $type = null;
+    #[ORM\Column(type: Types::SMALLINT, enumType: IssueType::class)]
+    private ?IssueType $type = null;
 
     #[ORM\Column(length: 100)]
     private ?string $summary = null;
@@ -45,6 +47,9 @@ class Issue
     #[ORM\OneToMany(targetEntity: Attachment::class, mappedBy: 'issue')]
     private Collection $attachements;
 
+    #[ORM\Column(type: Types::SMALLINT, enumType: IssueStatus::class)]
+    private ?IssueStatus $status = null;
+
     public function __construct()
     {
         $this->attachements = new ArrayCollection();
@@ -67,12 +72,12 @@ class Issue
         return $this;
     }
 
-    public function getType(): ?int
+    public function getType(): ?IssueType
     {
         return $this->type;
     }
 
-    public function setType(int $type): static
+    public function setType(IssueType $type): static
     {
         $this->type = $type;
 
@@ -165,6 +170,18 @@ class Issue
                 $attachement->setIssue(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?IssueStatus
+    {
+        return $this->status;
+    }
+
+    public function setStatus(IssueStatus $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }
