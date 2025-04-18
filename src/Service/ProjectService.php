@@ -3,20 +3,24 @@
 namespace App\Service;
 
 use App\Repository\ProjectRepository;
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Project;
 
 class ProjectService
 {
     public function __construct(
+        private readonly EntityManagerInterface $em,
         private readonly ProjectRepository $projectRepo
     ){
     }
 
-    public function getProjectList(User $user): array
+    public function getProjectsList(User $user): array
     {
-        $project = [];
+        $projects = [];
 
         foreach ($user->getProjects() as $project){
-            $project[$project->getId()] = [
+            $projects[$project->getKeyCode()] = [
                 'id' => $project->getId(),
                 'name' => $project->getName(),
                 'keyCode' => $project->getKeyCode(),
@@ -24,6 +28,17 @@ class ProjectService
             ];
         }
 
-        return $project;
+        return $projects;
+    }
+
+    public function findOneByKeyCode(string $keyCode)
+    {
+        return $this->projectRepo->findOneBy(['keyCode' => $keyCode]);
+    }
+
+    public function remove(Project $project)
+    {
+        $this->em->remove($project);
+        $this->em->flush();
     }
 }
