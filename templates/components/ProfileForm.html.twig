@@ -1,0 +1,32 @@
+<div {{ attributes }} class="card bg-light">
+    <div class="card-body">
+        {{ form_start(this.form, {
+            'attr': {
+                'data-action': 'live#action:prevent',
+                'data-action-name': 'save'
+            }
+        }) }}
+        
+        <div class="mb-3">
+            {{ form_row(this.form.username) }}
+        </div>
+        
+        <div class="mb-3">
+            {{ form_row(this.form.firstName) }}
+        </div>
+        
+        <div class="mb-3">
+            {{ form_row(this.form.lastName) }}
+        </div>
+        
+        {% if this.form.submit is defined %}
+            <div class="mb-3">
+                {{ form_row(this.form.submit) }}
+            </div>
+        {% else %}
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        {% endif %}
+        
+        {{ form_end(this.form) }}
+    </div>
+</div>
