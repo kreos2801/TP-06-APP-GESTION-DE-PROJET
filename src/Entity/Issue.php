@@ -11,7 +11,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 #[ORM\Entity(repositoryClass: IssueRepository::class)]
 class Issue
 {
@@ -48,7 +47,7 @@ class Issue
      * @var Collection<int, Attachment>
      */
     #[ORM\OneToMany(targetEntity: Attachment::class, mappedBy: 'issue')]
-    private Collection $attachements;
+    private Collection $attachment;
 
     #[ORM\Column(type: Types::SMALLINT, enumType: IssueStatus::class)]
     private ?IssueStatus $status = null;
@@ -58,7 +57,7 @@ class Issue
 
     public function __construct()
     {
-        $this->attachements = new ArrayCollection();
+        $this->attachment = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -153,24 +152,24 @@ class Issue
     /**
      * @return Collection<int, Attachment>
      */
-    public function getAttachements(): Collection
+    public function getAttachment(): Collection
     {
-        return $this->attachements;
+        return $this->attachment;
     }
 
-    public function addAttachement(Attachment $attachement): static
+    public function addAttachment(Attachment $attachement): static
     {
-        if (!$this->attachements->contains($attachement)) {
-            $this->attachements->add($attachement);
+        if (!$this->attachment->contains($attachement)) {
+            $this->attachment->add($attachement);
             $attachement->setIssue($this);
         }
 
         return $this;
     }
 
-    public function removeAttachement(Attachment $attachement): static
+    public function removeAttachment(Attachment $attachement): static
     {
-        if ($this->attachements->removeElement($attachement)) {
+        if ($this->attachment->removeElement($attachement)) {
             // set the owning side to null (unless already changed)
             if ($attachement->getIssue() === $this) {
                 $attachement->setIssue(null);
@@ -196,5 +195,4 @@ class Issue
     {
         return $this->project->getKeyCode(). '-' . $this->id;
     }
-
 }

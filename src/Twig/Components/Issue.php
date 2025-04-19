@@ -27,7 +27,7 @@ class Issue
 
     /** @var Attachment[]   */
     #[LiveProp]
-    public array $attachement = [];
+    public array $attachment = [];
 
     #[LiveProp]
     public bool $isEditingSummary = false;
