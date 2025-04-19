@@ -1,32 +1,32 @@
 <div {{ attributes }} class="card bg-light">
     <div class="card-body">
-        {{ form_start(this.form, {
+        {{ form_start(form, {
             'attr': {
                 'data-action': 'live#action:prevent',
-                'data-action-name': 'save'
+                'data-live-action-param': 'save'
             }
         }) }}
         
         <div class="mb-3">
-            {{ form_row(this.form.username) }}
+            {{ form_row(form.username) }}
         </div>
         
         <div class="mb-3">
-            {{ form_row(this.form.firstName) }}
+            {{ form_row(form.firstName) }}
         </div>
         
         <div class="mb-3">
-            {{ form_row(this.form.lastName) }}
+            {{ form_row(form.lastName) }}
         </div>
         
-        {% if this.form.submit is defined %}
+        {% if form.submit is defined %}
             <div class="mb-3">
-                {{ form_row(this.form.submit) }}
+                {{ form_row(form.submit) }}
             </div>
         {% else %}
             <button type="submit" class="btn btn-primary">Enregistrer</button>
         {% endif %}
         
-        {{ form_end(this.form) }}
+        {{ form_end(form) }}
     </div>
 </div>
