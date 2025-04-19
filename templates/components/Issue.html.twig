@@ -62,11 +62,34 @@
                 <input class="form-control" name="attachment" type="file">
                 <button class="btn btn-outline-primary" 
                     data-action="live#action" 
-                    data-live-action-param="files(attachment)|addAttachement"
+                    data-live-action-param="files(attachment)|addAttachment"
                 >
                     Joindre
                 </button>
             </div>
+            <div class="overflow-x-auto container-fluid">
+                <div class="flex-row flex-nowrap mb-3 row">
+                    {% for attachment in attachments %}
+                        <div class="col-sm-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <a href="{{ asset(attachment.path) }}" target="_blank" class="text-decoration-none">
+                                        <small>{{ attachment.originalName }}</small>
+                                    </a>
+                                    <button 
+                                        class="btn btn-sm btn-danger mt-2 w-100"
+                                        data-action="live#action"
+                                        data-live-action-param="deleteAttachment"
+                                        data-live-attachment-id-param="{{ attachment.id }}"
+                                    >
+                                        Supprimer
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div> 
         </div>
     </div>
 </div>
