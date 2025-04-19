@@ -45,7 +45,7 @@ class UserType extends AbstractType
             ])
         ;
 
-        if ($disabled){
+        if (!$disabled){
             $builder->add('submit', SubmitType::class, [
                 'label'=> 'Enregistrer',
             ]);

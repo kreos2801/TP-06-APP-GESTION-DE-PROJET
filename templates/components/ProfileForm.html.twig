@@ -2,31 +2,11 @@
     <div class="card-body">
         {{ form_start(form, {
             'attr': {
+                'novalidate': true,
                 'data-action': 'live#action:prevent',
                 'data-live-action-param': 'save'
             }
         }) }}
-        
-        <div class="mb-3">
-            {{ form_row(form.username) }}
-        </div>
-        
-        <div class="mb-3">
-            {{ form_row(form.firstName) }}
-        </div>
-        
-        <div class="mb-3">
-            {{ form_row(form.lastName) }}
-        </div>
-        
-        {% if form.submit is defined %}
-            <div class="mb-3">
-                {{ form_row(form.submit) }}
-            </div>
-        {% else %}
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
-        {% endif %}
-        
         {{ form_end(form) }}
     </div>
 </div>
