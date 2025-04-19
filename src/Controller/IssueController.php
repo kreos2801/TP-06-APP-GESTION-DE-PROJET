@@ -12,6 +12,9 @@ class IssueController extends AbstractController
     #[Route('/issue/{id}', name: 'issue_show')]
     public function show(?Issue $issue): Response
     {
+        if(!$issue){
+            return $this->redirectToRoute('issue_list');
+        }
         return $this->render('issue/show.html.twig', [
             'issue' => $issue,
         ]);
