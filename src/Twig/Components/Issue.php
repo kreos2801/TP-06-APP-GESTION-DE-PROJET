@@ -1,0 +1,84 @@
+<?php
+
+namespace App\Twig\Components;
+
+use App\Entity\Issue as IssueEntity;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
+use Symfony\UX\LiveComponent\Attribute\LiveAction;
+use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\LiveComponent\ComponentToolsTrait;
+use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Symfony\UX\LiveComponent\ValidatableComponentTrait;
+
+#[AsLiveComponent]
+class Issue
+{
+    use ComponentToolsTrait;
+    use DefaultActionTrait;
+    use ValidatableComponentTrait;
+
+    #[LiveProp(writable: ['description', 'summary'])]
+    public IssueEntity $issue;
+
+    #[LiveProp]
+    public bool $isEditingSummary = false;
+    
+    #[LiveProp]
+    public bool $isEditingDescription = false;
+
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly ValidatorInterface $validator
+    ) {
+    }
+
+    #[LiveAction]
+    public function activateEditingSummary(): void
+    {
+        $this->isEditingSummary = true;
+    }
+
+    #[LiveAction]
+    public function activateEditingDescription(): void
+    {
+        $this->isEditingDescription = true;
+    }
+
+    #[LiveAction]
+    public function saveSummary(): void
+    {
+        $errors = $this->validator->validate($this->issue);
+        
+        if (count($errors) > 0) {
+            // Gérer les erreurs de validation ici
+            foreach ($errors as $error) {
+                // Vous pouvez ajouter des flashs messages ou d'autres mécanismes pour afficher les erreurs
+            }
+            return;
+        }
+
+        $this->isEditingSummary = false;
+        
+        $this->em->flush();
+    }
+
+    #[LiveAction]
+    public function saveDescription(): void
+    {
+        $errors = $this->validator->validate($this->issue);
+        
+        if (count($errors) > 0) {
+            // Gérer les erreurs de validation ici
+            foreach ($errors as $error) {
+                // Vous pouvez ajouter des flashs messages ou d'autres mécanismes pour afficher les erreurs
+            }
+            return;
+        }
+
+        $this->isEditingDescription = false;
+        
+        $this->em->flush();
+    }
+}
