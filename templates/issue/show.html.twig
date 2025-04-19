@@ -62,6 +62,16 @@
                                             }) }}
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td class="fw-bold"><small>Rapporteur</small></td>
+                                        <td>
+                                            {{ component('SelectIssueReporter', {
+                                                'issue': issue,
+                                                'people': issue.project.members.toArray,
+                                                'reporter': issue.reporter
+                                            }) }}
+                                        </td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
