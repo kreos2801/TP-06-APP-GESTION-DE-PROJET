@@ -25,11 +25,17 @@
           <a class="nav-link" data-bs-target="#modalCreateIssue" data-bs-toggle="modal" href="#">Créer</a>
         </li>
       </ul>
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
-        </li>
-      </ul>
+      <div class="d-flex" role="search">
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ app.user }}
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Mon profil</a></li>
+            <li><a class="dropdown-item" href="/logout">Se déconnecter</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
