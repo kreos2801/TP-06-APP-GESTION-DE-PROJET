@@ -2,8 +2,11 @@
 
 namespace App\Twig\Components;
 
+use App\Entity\Attachment;
 use App\Entity\Issue as IssueEntity;
+use App\Service\AttachmentService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
@@ -22,6 +25,10 @@ class Issue
     #[LiveProp(writable: ['description', 'summary'])]
     public IssueEntity $issue;
 
+    /** @var Attachment[]   */
+    #[LiveProp]
+    public array $attachement = [];
+
     #[LiveProp]
     public bool $isEditingSummary = false;
     
@@ -29,6 +36,7 @@ class Issue
     public bool $isEditingDescription = false;
 
     public function __construct(
+        private readonly AttachmentService $attachmentService,
         private readonly EntityManagerInterface $em,
         private readonly ValidatorInterface $validator
     ) {
@@ -80,5 +88,11 @@ class Issue
         $this->isEditingDescription = false;
         
         $this->em->flush();
+    }
+
+    #[LiveAction]
+    public function addAttachement(Request $request)
+    {
+        $this->attachmentService->handleUploadedAttachment($this->issue, $request);
     }
 }
